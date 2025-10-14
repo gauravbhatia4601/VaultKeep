@@ -80,16 +80,16 @@ interface FolderAccessToken {
 
 // Generate folder access token (JWT)
 export function generateFolderAccessToken(
-  userId: Types.ObjectId,
-  folderId: Types.ObjectId
+  userId: string,
+  folderId: string
 ): string {
   if (!process.env.JWT_SECRET) {
     throw new Error('JWT_SECRET is not defined');
   }
 
   const payload: FolderAccessToken = {
-    userId: userId.toString(),
-    folderId: folderId.toString(),
+    userId,
+    folderId,
     exp: Math.floor(Date.now() / 1000) + 60 * 60, // 1 hour
   };
 

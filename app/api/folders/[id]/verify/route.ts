@@ -78,7 +78,7 @@ export async function POST(
 
     // Generate JWT access token for this folder (valid for 1 hour)
     const accessToken = generateFolderAccessToken(
-      userId.toString(),
+      userId,
       folderId
     );
 
