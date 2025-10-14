@@ -80,8 +80,8 @@ UserSchema.pre('save', async function (next) {
 // Prevent password from being returned in queries
 UserSchema.set('toJSON', {
   transform: function (_doc, ret) {
-    delete ret.passwordHash;
-    return ret;
+    const { passwordHash, ...rest } = ret;
+    return rest;
   },
 });
 
