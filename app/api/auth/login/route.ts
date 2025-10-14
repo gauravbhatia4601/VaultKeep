@@ -66,13 +66,13 @@ export async function POST(request: NextRequest) {
     await user.save();
 
     // Create session
-    await createSession(user._id.toString(), user.username, user.email);
+    await createSession(String(user._id), user.username, user.email);
 
     // Return success response
     return createSuccessResponse({
       message: 'Login successful',
       user: {
-        id: user._id,
+        id: String(user._id),
         username: user.username,
         email: user.email,
       },
