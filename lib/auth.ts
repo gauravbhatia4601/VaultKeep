@@ -1,7 +1,6 @@
 import { getIronSession, IronSession, SessionOptions } from 'iron-session';
 import { cookies } from 'next/headers';
 import jwt from 'jsonwebtoken';
-import { Types } from 'mongoose';
 
 // Session data interface
 export interface SessionData {
