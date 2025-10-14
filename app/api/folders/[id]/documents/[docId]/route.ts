@@ -74,7 +74,7 @@ export async function GET(
       await document.save();
 
       // Return file
-      return new NextResponse(fileBuffer.buffer, {
+      return new NextResponse(new Uint8Array(fileBuffer), {
         status: 200,
         headers: {
           'Content-Type': document.mimeType,
