@@ -114,7 +114,7 @@ export function verifyFolderAccessToken(
     }
 
     return { valid: true, userId: decoded.userId };
-  } catch (error) {
+  } catch {
     return { valid: false };
   }
 }

@@ -37,7 +37,7 @@ interface FolderViewClientProps {
   user: User;
 }
 
-export default function FolderViewClient({ folderId, user }: FolderViewClientProps) {
+export default function FolderViewClient({ folderId }: FolderViewClientProps) {
   const router = useRouter();
   const [folder, setFolder] = useState<FolderDetails | null>(null);
   const [documents, setDocuments] = useState<Document[]>([]);
@@ -56,6 +56,7 @@ export default function FolderViewClient({ folderId, user }: FolderViewClientPro
     }
     setAccessToken(token);
     fetchFolderData(token);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [folderId, router]);
 
   const fetchFolderData = async (token: string) => {

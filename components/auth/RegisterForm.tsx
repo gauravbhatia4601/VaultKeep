@@ -64,7 +64,7 @@ export default function RegisterForm() {
       // Success - redirect to dashboard
       router.push('/dashboard');
       router.refresh();
-    } catch (err) {
+    } catch {
       setError('Network error. Please try again.');
     } finally {
       setIsLoading(false);

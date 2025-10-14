@@ -1,8 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
 import { destroySession } from '@/lib/auth';
 import { createSuccessResponse, createErrorResponse } from '@/middleware/auth';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     // Destroy the session
     await destroySession();
