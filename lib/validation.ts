@@ -37,7 +37,7 @@ export const loginSchema = z.object({
   password: z.string().min(1, 'Password is required'),
 });
 
-// Folder creation schema
+// Folder creation schema with optional PIN and nested folder support
 export const createFolderSchema = z.object({
   folderName: z
     .string()
@@ -45,24 +45,37 @@ export const createFolderSchema = z.object({
     .max(100, 'Folder name must be 100 characters or less')
     .regex(/^[a-zA-Z0-9\s\-_]+$/, 'Folder name can only contain letters, numbers, spaces, hyphens, and underscores')
     .trim(),
-  password: z
+  pin: z
     .string()
-    .min(6, 'Password must be at least 6 characters long')
-    .max(128, 'Password is too long (maximum 128 characters)'),
-  confirmPassword: z.string().min(1, 'Please confirm your password'),
+    .regex(/^\d{4,6}$/, 'PIN must be 4-6 digits')
+    .optional()
+    .or(z.literal('')),  // Allow empty string for unprotected folders
+  confirmPin: z
+    .string()
+    .optional()
+    .or(z.literal('')),
   description: z
     .string()
     .max(500, 'Description must be 500 characters or less')
     .optional(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'Passwords do not match. Please make sure both passwords are identical.',
-  path: ['confirmPassword'],
+  parentId: z
+    .string()
+    .optional(),  // Optional parent folder ID for nested folders
+}).refine((data) => {
+  // If PIN is provided, confirmPin must match
+  if (data.pin && data.pin.length > 0) {
+    return data.pin === data.confirmPin;
+  }
+  return true;  // No PIN provided is valid
+}, {
+  message: 'PINs do not match. Please make sure both PINs are identical.',
+  path: ['confirmPin'],
 });
 
-// Folder password verification schema
+// Folder PIN verification schema
 export const verifyFolderPasswordSchema = z.object({
   folderId: z.string().min(1, 'Folder ID is required'),
-  password: z.string().min(1, 'Password is required'),
+  password: z.union([z.string(), z.undefined(), z.literal('')]).optional(),  // Optional or empty string for unprotected folders
 });
 
 // File upload validation

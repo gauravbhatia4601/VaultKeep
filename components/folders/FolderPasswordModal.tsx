@@ -3,8 +3,8 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Button from '@/components/ui/Button';
-import Input from '@/components/ui/Input';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface FolderPasswordModalProps {
   isOpen: boolean;
@@ -92,14 +92,14 @@ export default function FolderPasswordModal({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
               transition={{ duration: 0.2 }}
-              className="backdrop-blur-md bg-white/95 border border-purple-200/50 rounded-2xl shadow-2xl max-w-md w-full p-8"
+              className="backdrop-blur-md bg-white/95 border border-border/50 rounded-2xl shadow-2xl max-w-md w-full p-8"
             >
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <motion.div
                     whileHover={{ rotate: 5 }}
-                    className="h-10 w-10 bg-gradient-to-br from-purple-500 to-purple-400 rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/50"
+                    className="h-10 w-10 bg-gradient-to-br from-primary to-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20"
                   >
                     <svg
                       className="h-6 w-6 text-white"
@@ -207,7 +207,7 @@ export default function FolderPasswordModal({
                     type="submit"
                     disabled={isLoading || !password}
                     isLoading={isLoading}
-                    className="flex-1 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 shadow-lg shadow-purple-500/50"
+                    className="flex-1 bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary shadow-lg shadow-primary/20"
                   >
                     {isLoading ? 'Verifying...' : 'Unlock'}
                   </Button>

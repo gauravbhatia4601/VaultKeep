@@ -1,14 +1,15 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section with Merged Header - Full Viewport */}
-      <section className="relative min-h-screen flex flex-col overflow-hidden bg-gradient-to-br from-purple-100 via-purple-50 to-white">
+      <section className="relative min-h-screen flex flex-col overflow-hidden bg-gradient-to-br from-background via-background to-white">
         {/* 3D Parallax Background */}
         <motion.div
           className="absolute inset-0"
@@ -32,7 +33,7 @@ export default function Home() {
             }}
           >
             <motion.div
-              className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-purple-400 to-purple-300 rounded-full opacity-30 blur-3xl"
+              className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-gradient-to-br from-primary to-primary/80 rounded-full opacity-30 blur-3xl"
               style={{ transform: "translateZ(-100px)" }}
               animate={{
                 y: [0, 40, 0],
@@ -62,7 +63,7 @@ export default function Home() {
             }}
           >
             <motion.div
-              className="absolute bottom-0 right-1/4 w-[450px] h-[450px] bg-gradient-to-br from-purple-300 to-purple-200 rounded-full opacity-35 blur-3xl"
+              className="absolute bottom-0 right-1/4 w-[450px] h-[450px] bg-gradient-to-br from-primary/80 to-primary/60 rounded-full opacity-35 blur-3xl"
               style={{ transform: "translateZ(-50px)" }}
               animate={{
                 y: [0, -35, 0],
@@ -83,7 +84,7 @@ export default function Home() {
             style={{ transformStyle: "preserve-3d" }}
           >
             <motion.div
-              className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-br from-purple-200 to-purple-100 rounded-full opacity-40 blur-3xl"
+              className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-br from-primary/60 to-background rounded-full opacity-40 blur-3xl"
               style={{ transform: "translateZ(0px) translate(-50%, -50%)" }}
               animate={{
                 scale: [1, 1.4, 1],
@@ -167,7 +168,7 @@ export default function Home() {
               {[0, 1, 2].map((i) => (
                 <motion.div
                   key={i}
-                  className="absolute top-0 left-0 w-32 h-32 border border-purple-400/20 rounded-full"
+                  className="absolute top-0 left-0 w-32 h-32 border border-border/20 rounded-full"
                   style={{ transform: "translate(-50%, -50%)" }}
                   animate={{
                     scale: [1, 3, 1],
@@ -195,13 +196,15 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <motion.div
               whileHover={{ scale: 1.02 }}
-              className="flex items-center gap-2"
+              className="flex items-center gap-3"
             >
-              <div className="h-8 w-8 bg-purple-600 rounded-lg flex items-center justify-center shadow-lg">
-                <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
+              <Image
+                src="/logo.png"
+                alt="VaultKeep Logo"
+                width={40}
+                height={40}
+                className="rounded-lg shadow-lg"
+              />
               <h1 className="text-xl font-semibold text-gray-900">VaultKeep</h1>
             </motion.div>
             <div className="flex gap-3">
@@ -210,7 +213,7 @@ export default function Home() {
                   <Button
                     variant="secondary"
                     size="sm"
-                    className="text-gray-700 bg-white/90 backdrop-blur-md border border-purple-200/50 shadow-lg hover:shadow-xl hover:bg-white transition-all duration-300"
+                    className="text-gray-700 bg-white/90 backdrop-blur-md border border-border/50 shadow-lg hover:shadow-xl hover:bg-white transition-all duration-300"
                   >
                     Login
                   </Button>
@@ -220,7 +223,7 @@ export default function Home() {
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Button
                     size="sm"
-                    className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 shadow-lg shadow-purple-500/50 hover:shadow-xl hover:shadow-purple-600/60 transition-all duration-300"
+                    className="bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300"
                   >
                     Sign Up
                   </Button>
@@ -233,7 +236,7 @@ export default function Home() {
         {/* Hero Content - Centered */}
         <div className="relative flex-1 flex items-center justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center max-w-4xl mx-auto">
-            {/* Subtle 3D Icon */}
+            {/* Logo */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -241,18 +244,18 @@ export default function Home() {
               className="mx-auto mb-8 inline-block"
             >
               <motion.div
-                whileHover={{ y: -8, rotateX: 10 }}
+                whileHover={{ y: -8, scale: 1.05 }}
                 transition={{ duration: 0.3 }}
                 className="relative"
-                style={{ transformStyle: 'preserve-3d' }}
               >
-                <div className="h-20 w-20 bg-gradient-to-br from-purple-500 to-purple-400 rounded-2xl flex items-center justify-center shadow-xl relative"
+                <Image
+                  src="/logo.png"
+                  alt="VaultKeep"
+                  width={100}
+                  height={100}
+                  className="rounded-2xl shadow-2xl"
                   style={{ boxShadow: '0 20px 40px rgba(147, 51, 234, 0.3)' }}
-                >
-                  <svg className="h-10 w-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                </div>
+                />
               </motion.div>
             </motion.div>
 
@@ -264,7 +267,7 @@ export default function Home() {
               className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 tracking-tight"
             >
               Secure Family
-              <span className="block text-purple-600">Document Storage</span>
+              <span className="block text-primary">Document Storage</span>
             </motion.h1>
 
             <motion.p
@@ -291,7 +294,7 @@ export default function Home() {
                 >
                   <Button
                     size="lg"
-                    className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 shadow-2xl shadow-purple-500/50 hover:shadow-purple-600/70 text-lg px-10 py-6 font-semibold transition-all duration-300"
+                    className="bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary shadow-2xl shadow-primary/20 hover:shadow-primary/30 text-lg px-10 py-6 font-semibold transition-all duration-300"
                   >
                     Get Started Free
                   </Button>
@@ -306,7 +309,7 @@ export default function Home() {
                   <Button
                     variant="secondary"
                     size="lg"
-                    className="bg-white/90 backdrop-blur-md border-2 border-purple-200/50 hover:border-purple-300 hover:bg-white text-gray-700 text-lg px-10 py-6 font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
+                    className="bg-white/90 backdrop-blur-md border-2 border-border/50 hover:border-border hover:bg-white text-gray-700 text-lg px-10 py-6 font-semibold shadow-xl hover:shadow-2xl transition-all duration-300"
                   >
                     Sign In
                   </Button>
@@ -349,9 +352,9 @@ export default function Home() {
                 ),
                 title: "Password Protected",
                 description: "Each folder is secured with its own password using industry-standard bcrypt encryption.",
-                bgColor: "bg-purple-50",
-                hoverBgColor: "group-hover:bg-purple-100",
-                iconColor: "text-purple-600"
+                bgColor: "bg-muted/30",
+                hoverBgColor: "group-hover:bg-muted",
+                iconColor: "text-primary"
               },
               {
                 icon: (
@@ -359,9 +362,9 @@ export default function Home() {
                 ),
                 title: "Easy Organization",
                 description: "Create unlimited folders to organize your documents by category or family member.",
-                bgColor: "bg-purple-50",
-                hoverBgColor: "group-hover:bg-purple-100",
-                iconColor: "text-purple-600"
+                bgColor: "bg-muted/30",
+                hoverBgColor: "group-hover:bg-muted",
+                iconColor: "text-primary"
               },
               {
                 icon: (
@@ -369,9 +372,9 @@ export default function Home() {
                 ),
                 title: "Multiple File Types",
                 description: "Upload PDFs, images, documents, and more. Up to 10MB per file with instant access.",
-                bgColor: "bg-purple-50",
-                hoverBgColor: "group-hover:bg-purple-100",
-                iconColor: "text-purple-600"
+                bgColor: "bg-muted/30",
+                hoverBgColor: "group-hover:bg-muted",
+                iconColor: "text-primary"
               }
             ].map((feature, index) => (
               <motion.div
@@ -383,7 +386,7 @@ export default function Home() {
                 whileHover={{ y: -4 }}
                 className="group"
               >
-                <div className="bg-white border border-gray-200 rounded-2xl p-8 hover:border-purple-300 hover:shadow-xl transition-all duration-300 h-full">
+                <div className="bg-white border border-gray-200 rounded-2xl p-8 hover:border-border hover:shadow-xl transition-all duration-300 h-full">
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ duration: 0.3 }}
@@ -426,7 +429,7 @@ export default function Home() {
                 transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
                 className="text-center"
               >
-                <div className="text-3xl md:text-4xl font-bold text-purple-600 mb-2">{stat.value}</div>
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{stat.value}</div>
                 <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
               </motion.div>
             ))}
@@ -445,11 +448,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="h-6 w-6 bg-purple-600 rounded-lg flex items-center justify-center">
-                <svg className="h-4 w-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                </svg>
-              </div>
+              <Image
+                src="/logo.png"
+                alt="VaultKeep"
+                width={32}
+                height={32}
+                className="rounded-lg"
+              />
               <span className="font-semibold text-gray-900">VaultKeep</span>
             </div>
             <p className="text-gray-600 mb-2">&copy; 2025 VaultKeep. All rights reserved.</p>

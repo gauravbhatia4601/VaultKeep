@@ -37,13 +37,18 @@ export async function POST(
       );
     }
 
-    // Parse request body
-    const body = await request.json();
+    // Parse request body (may be empty for unprotected folders)
+    let body;
+    try {
+      body = await request.json();
+    } catch {
+      body = {};
+    }
 
-    // Validate input
+    // Validate input - handle both undefined and empty string
     const validatedData = verifyFolderPasswordSchema.parse({
       folderId,
-      password: body.password,
+      password: body.password === '' ? undefined : body.password,
     });
 
     // Connect to database
@@ -62,12 +67,50 @@ export async function POST(
       );
     }
 
-    // Compare password
+    // Check if folder is protected
+    if (!folder.passwordHash) {
+      // Folder is unprotected, grant access directly
+      console.log('Unprotected folder detected, granting access:', folderId);
+      
+      // Update last accessed time
+      folder.lastAccessedAt = new Date();
+      await folder.save();
+
+      // Generate JWT access token for this folder (valid for 1 hour)
+      const accessToken = generateFolderAccessToken(userId, folderId);
+      
+      console.log('Access token generated for unprotected folder');
+
+      return NextResponse.json(
+        {
+          message: 'Folder access granted',
+          accessToken,
+          folder: {
+            id: folder._id,
+            folderName: folder.folderName,
+            description: folder.description,
+            documentCount: folder.documentCount,
+            totalSize: folder.totalSize,
+            isProtected: false,
+          },
+        },
+        { status: 200 }
+      );
+    }
+
+    // Folder is protected, verify PIN
+    if (!validatedData.password || validatedData.password === '') {
+      return NextResponse.json(
+        { error: 'PIN is required for protected folders' },
+        { status: 400 }
+      );
+    }
+
     const isPasswordValid = await folder.comparePassword(validatedData.password);
 
     if (!isPasswordValid) {
       return NextResponse.json(
-        { error: 'Invalid password' },
+        { error: 'Invalid PIN' },
         { status: 401 }
       );
     }
@@ -92,6 +135,7 @@ export async function POST(
           description: folder.description,
           documentCount: folder.documentCount,
           totalSize: folder.totalSize,
+          isProtected: true,
         },
       },
       { status: 200 }

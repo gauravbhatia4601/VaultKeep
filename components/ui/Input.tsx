@@ -1,49 +1,62 @@
-import React from 'react';
+import * as React from "react"
+import { cn } from "@/lib/utils"
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
-  error?: string;
-  helperText?: string;
+  label?: string
+  error?: string
+  helperText?: string
 }
 
-export default function Input({
+export const Input: React.FC<InputProps> = ({
+  className,
   label,
   error,
   helperText,
-  className = '',
   id,
+  required,
   ...props
-}: InputProps) {
-  const inputId = id || label?.toLowerCase().replace(/\s+/g, '-');
+}) => {
+  const inputId = id || label?.toLowerCase().replace(/\s+/g, '-')
 
+  const inputElement = (
+    <input
+      id={inputId}
+      data-slot="input"
+      className={cn(
+        "file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+        "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+        error && "border-destructive",
+        className
+      )}
+      aria-invalid={error ? true : undefined}
+      required={required}
+      {...props}
+    />
+  )
+
+  // If no wrapper props, return input directly
+  if (!label && !error && !helperText) {
+    return inputElement
+  }
+
+  // With wrapper
   return (
     <div className="w-full">
       {label && (
         <label
           htmlFor={inputId}
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-foreground mb-1.5"
         >
           {label}
-          {props.required && <span className="text-red-500 ml-1">*</span>}
+          {required && <span className="text-destructive ml-1">*</span>}
         </label>
       )}
-      <input
-        id={inputId}
-        className={`
-          w-full px-4 py-3 border rounded-lg shadow-sm backdrop-blur-sm
-          focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500
-          transition-all duration-200
-          ${error ? 'border-red-500 focus:ring-red-500 bg-red-50/50' : 'border-purple-200/50 bg-white/80'}
-          ${props.disabled ? 'bg-gray-100 cursor-not-allowed' : ''}
-          hover:border-purple-300
-          ${className}
-        `}
-        {...props}
-      />
+      {inputElement}
       {error && (
-        <div className="mt-2 flex items-start gap-1.5" role="alert">
+        <div className="mt-1.5 flex items-start gap-1.5" role="alert">
           <svg
-            className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5"
+            className="h-4 w-4 text-destructive flex-shrink-0 mt-0.5"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -53,12 +66,16 @@ export default function Input({
               clipRule="evenodd"
             />
           </svg>
-          <p className="text-sm text-red-600 font-medium">{error}</p>
+          <p className="text-sm text-destructive font-medium">{error}</p>
         </div>
       )}
       {helperText && !error && (
-        <p className="mt-1 text-sm text-gray-500">{helperText}</p>
+        <p className="mt-1 text-sm text-muted-foreground">{helperText}</p>
       )}
     </div>
-  );
+  )
 }
+
+Input.displayName = "Input"
+
+export type { InputProps }

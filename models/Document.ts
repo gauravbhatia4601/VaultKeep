@@ -11,6 +11,8 @@ export interface IDocument extends Document {
   uploadedAt: Date;
   lastAccessedAt?: Date;
   checksum: string;
+  shareToken?: string;
+  shareExpiresAt?: Date;
 }
 
 const DocumentSchema = new Schema<IDocument>(
@@ -60,6 +62,14 @@ const DocumentSchema = new Schema<IDocument>(
     checksum: {
       type: String,
       required: [true, 'Checksum is required'],
+    },
+    shareToken: {
+      type: String,
+      unique: true,
+      sparse: true,
+    },
+    shareExpiresAt: {
+      type: Date,
     },
   },
   {

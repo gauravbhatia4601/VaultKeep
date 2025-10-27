@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 interface FolderSettingsModalProps {
   isOpen: boolean;
@@ -126,13 +126,13 @@ export default function FolderSettingsModal({
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               transition={{ type: 'spring', duration: 0.5 }}
-              className="backdrop-blur-md bg-white/95 rounded-2xl shadow-2xl max-w-md w-full p-8 border border-purple-200/50"
+              className="backdrop-blur-md bg-white/95 rounded-2xl shadow-2xl max-w-md w-full p-8 border border-border/50"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
-                  <div className="h-10 w-10 bg-gradient-to-br from-purple-500 to-purple-400 rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/50">
+                  <div className="h-10 w-10 bg-gradient-to-br from-primary to-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
                     <svg
                       className="h-6 w-6 text-white"
                       fill="none"
@@ -204,7 +204,7 @@ export default function FolderSettingsModal({
                     value={folderName}
                     onChange={(e) => setFolderName(e.target.value)}
                     maxLength={100}
-                    className="w-full px-4 py-3 rounded-lg border border-purple-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all"
+                    className="w-full px-4 py-3 rounded-lg border border-border focus:border-primary focus:ring-2 focus:ring-ring/20 outline-none transition-all"
                     required
                   />
                 </div>
@@ -223,13 +223,13 @@ export default function FolderSettingsModal({
                     onChange={(e) => setDescription(e.target.value)}
                     maxLength={500}
                     rows={3}
-                    className="w-full px-4 py-3 rounded-lg border border-purple-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all resize-none"
+                    className="w-full px-4 py-3 rounded-lg border border-border focus:border-primary focus:ring-2 focus:ring-ring/20 outline-none transition-all resize-none"
                     placeholder="Add a description for this folder..."
                   />
                 </div>
 
                 {/* Change Password Section */}
-                <div className="pt-4 border-t border-purple-100">
+                <div className="pt-4 border-t border-border">
                   <p className="text-sm font-medium text-gray-700 mb-3">
                     Change Password (Optional)
                   </p>
@@ -248,7 +248,7 @@ export default function FolderSettingsModal({
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       minLength={6}
-                      className="w-full px-4 py-3 rounded-lg border border-purple-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all"
+                      className="w-full px-4 py-3 rounded-lg border border-border focus:border-primary focus:ring-2 focus:ring-ring/20 outline-none transition-all"
                       placeholder="Leave blank to keep current password"
                     />
                   </div>
@@ -271,7 +271,7 @@ export default function FolderSettingsModal({
                         type="password"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
-                        className="w-full px-4 py-3 rounded-lg border border-purple-200 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all"
+                        className="w-full px-4 py-3 rounded-lg border border-border focus:border-primary focus:ring-2 focus:ring-ring/20 outline-none transition-all"
                         placeholder="Confirm your new password"
                       />
                     </motion.div>
@@ -291,7 +291,7 @@ export default function FolderSettingsModal({
                   </Button>
                   <Button
                     type="submit"
-                    className="flex-1 bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600"
+                    className="flex-1 bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary"
                     disabled={isLoading}
                   >
                     {isLoading ? (

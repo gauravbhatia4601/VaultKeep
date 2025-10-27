@@ -12,6 +12,8 @@ interface DocumentCardProps {
   uploadedAt: string;
   onDownload: (id: string) => void;
   onDelete: (id: string) => void;
+  onRename: (id: string, newName: string) => Promise<void>;
+  onShare: (id: string) => void;
 }
 
 export default function DocumentCard({
@@ -22,8 +24,12 @@ export default function DocumentCard({
   uploadedAt,
   onDownload,
   onDelete,
+  onRename,
+  onShare,
 }: DocumentCardProps) {
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isRenaming, setIsRenaming] = useState(false);
+  const [newName, setNewName] = useState(originalName);
 
   // Format file size
   const formatSize = (bytes: number): string => {
@@ -50,7 +56,7 @@ export default function DocumentCard({
   const getFileIcon = () => {
     if (mimeType.startsWith('image/')) {
       return (
-        <svg className="h-8 w-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
       );
@@ -87,6 +93,28 @@ export default function DocumentCard({
     setIsDeleting(false);
   };
 
+  const handleRename = async () => {
+    if (newName.trim() === '' || newName === originalName) {
+      setIsRenaming(false);
+      setNewName(originalName);
+      return;
+    }
+
+    try {
+      await onRename(id, newName);
+      setIsRenaming(false);
+    } catch (error) {
+      console.error('Rename error:', error);
+      setNewName(originalName);
+      setIsRenaming(false);
+    }
+  };
+
+  const handleShare = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    onShare(id);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -96,10 +124,10 @@ export default function DocumentCard({
       transition={{ duration: 0.2 }}
       className="relative group"
     >
-      <div className="backdrop-blur-md bg-white/90 border border-purple-200/50 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 p-6">
+      <div className="backdrop-blur-md bg-white/90 border border-border/50 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 p-6">
         {/* File Icon */}
         <div className="flex items-start justify-between mb-4">
-          <div className="h-14 w-14 bg-gradient-to-br from-purple-100 to-purple-50 rounded-xl flex items-center justify-center shadow-md">
+          <div className="h-14 w-14 bg-gradient-to-br from-background to-background rounded-xl flex items-center justify-center shadow-md">
             {getFileIcon()}
           </div>
 
@@ -109,11 +137,38 @@ export default function DocumentCard({
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => onDownload(id)}
-              className="p-2 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-600"
+              className="p-2 rounded-lg bg-muted/30 hover:bg-muted text-primary"
               title="Download"
             >
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleShare}
+              className="p-2 rounded-lg bg-green-50 hover:bg-green-100 text-green-600"
+              title="Share"
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+              </svg>
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsRenaming(true);
+              }}
+              className="p-2 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600"
+              title="Rename"
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
             </motion.button>
 
@@ -139,10 +194,31 @@ export default function DocumentCard({
           </div>
         </div>
 
-        {/* File Name */}
-        <h3 className="text-base font-semibold text-gray-900 mb-2 truncate" title={originalName}>
-          {originalName}
-        </h3>
+        {/* File Name - Editable */}
+        {isRenaming ? (
+          <div className="mb-2">
+            <input
+              type="text"
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              onBlur={handleRename}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleRename();
+                if (e.key === 'Escape') {
+                  setIsRenaming(false);
+                  setNewName(originalName);
+                }
+              }}
+              autoFocus
+              className="w-full px-2 py-1 text-base font-semibold text-gray-900 border-2 border-primary rounded focus:outline-none"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        ) : (
+          <h3 className="text-base font-semibold text-gray-900 mb-2 truncate" title={originalName}>
+            {originalName}
+          </h3>
+        )}
 
         {/* File Info */}
         <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
@@ -151,7 +227,7 @@ export default function DocumentCard({
         </div>
 
         {/* Upload Date */}
-        <div className="text-xs text-gray-500 pt-3 border-t border-purple-100">
+        <div className="text-xs text-gray-500 pt-3 border-t border-border">
           <div className="flex items-center gap-1">
             <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />

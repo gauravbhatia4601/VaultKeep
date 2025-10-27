@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "new-york",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/ui",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  },
+  "registries": {
+    "@aceternity": {
+      "url": "https://ui.aceternity.com/registry/{name}.json"
+    },
+    "@originui": {
+      "url": "https://originui.com/r/{name}.json"
+    },
+    "@cult": {
+      "url": "https://cult-ui.com/r/{name}.json"
+    },
+    "@kibo": {
+      "url": "https://www.kibo-ui.com/r/{name}.json"
+    },
+    "@reui": {
+      "url": "https://reui.io/r/{name}.json"
+    }
+  }
+}

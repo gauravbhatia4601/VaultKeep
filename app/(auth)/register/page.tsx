@@ -1,13 +1,13 @@
 'use client';
 
-import Card from '@/components/ui/Card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import RegisterForm from '@/components/auth/RegisterForm';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-purple-100 via-purple-50 to-white py-12">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-background via-background to-white py-12">
       {/* 3D Parallax Background */}
       <motion.div
         className="absolute inset-0"
@@ -31,7 +31,7 @@ export default function RegisterPage() {
           }}
         >
           <motion.div
-            className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-gradient-to-br from-purple-400 to-purple-300 rounded-full opacity-30 blur-3xl"
+            className="absolute top-0 right-1/4 w-[400px] h-[400px] bg-gradient-to-br from-primary to-primary/80 rounded-full opacity-30 blur-3xl"
             style={{ transform: "translateZ(-100px)" }}
             animate={{
               y: [0, 40, 0],
@@ -61,7 +61,7 @@ export default function RegisterPage() {
           }}
         >
           <motion.div
-            className="absolute bottom-0 left-1/4 w-[350px] h-[350px] bg-gradient-to-br from-purple-300 to-purple-200 rounded-full opacity-35 blur-3xl"
+            className="absolute bottom-0 left-1/4 w-[350px] h-[350px] bg-gradient-to-br from-primary/80 to-primary/60 rounded-full opacity-35 blur-3xl"
             style={{ transform: "translateZ(-50px)" }}
             animate={{
               y: [0, -35, 0],
@@ -78,7 +78,7 @@ export default function RegisterPage() {
 
         {/* Floating particles */}
         <motion.div
-          className="absolute top-1/3 left-1/3 w-2 h-2 bg-purple-400 rounded-full"
+          className="absolute top-1/3 left-1/3 w-2 h-2 bg-primary rounded-full"
           animate={{
             y: [0, -100, 0],
             opacity: [0.3, 0.8, 0.3]
@@ -90,7 +90,7 @@ export default function RegisterPage() {
           }}
         />
         <motion.div
-          className="absolute bottom-1/3 right-1/4 w-3 h-3 bg-purple-300 rounded-full"
+          className="absolute bottom-1/3 right-1/4 w-3 h-3 bg-primary/20 rounded-full"
           animate={{
             y: [0, -80, 0],
             opacity: [0.4, 1, 0.4]
@@ -117,7 +117,7 @@ export default function RegisterPage() {
             whileHover={{ scale: 1.02 }}
             className="flex items-center justify-center gap-2 mb-8"
           >
-            <div className="h-10 w-10 bg-purple-600 rounded-lg flex items-center justify-center shadow-lg">
+            <div className="h-10 w-10 bg-primary rounded-lg flex items-center justify-center shadow-lg">
               <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
@@ -141,7 +141,7 @@ export default function RegisterPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <Card className="backdrop-blur-md bg-white/90 shadow-2xl border border-purple-200/50">
+          <Card className="backdrop-blur-md bg-white/90 shadow-2xl border border-border/50">
             <RegisterForm />
           </Card>
         </motion.div>
@@ -153,8 +153,8 @@ export default function RegisterPage() {
           className="text-center text-xs text-gray-500 mt-6"
         >
           By creating an account, you agree to our{' '}
-          <span className="text-purple-600">Terms of Service</span> and{' '}
-          <span className="text-purple-600">Privacy Policy</span>
+          <span className="text-primary">Terms of Service</span> and{' '}
+          <span className="text-primary">Privacy Policy</span>
         </motion.p>
       </motion.div>
     </div>

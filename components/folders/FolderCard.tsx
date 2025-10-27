@@ -8,7 +8,9 @@ interface FolderCardProps {
   folderName: string;
   description?: string;
   documentCount: number;
+  subfolderCount?: number;  // Count of subfolders inside this folder
   totalSize: number;
+  isProtected: boolean;  // NEW: indicates if folder requires PIN
   createdAt: string;
   lastAccessedAt?: string;
   onOpen: (id: string) => void;
@@ -20,7 +22,9 @@ export default function FolderCard({
   folderName,
   description,
   documentCount,
+  subfolderCount = 0,
   totalSize,
+  isProtected,
   createdAt,
   lastAccessedAt,
   onOpen,
@@ -69,14 +73,14 @@ export default function FolderCard({
       onClick={() => onOpen(id)}
       className="relative group cursor-pointer"
     >
-      <div className="backdrop-blur-md bg-white/90 border border-purple-200/50 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-purple-500/20 transition-all duration-300 p-6">
+      <div className="backdrop-blur-md bg-white/90 border border-border/50 rounded-xl shadow-lg hover:shadow-2xl hover:shadow-primary/20 transition-all duration-300 p-6">
         {/* Folder Icon */}
         <div className="flex items-start justify-between mb-4">
           <motion.div
             whileHover={{ scale: 1.1, rotateY: 10 }}
             transition={{ duration: 0.3 }}
             style={{ transformStyle: 'preserve-3d' }}
-            className="h-14 w-14 bg-gradient-to-br from-purple-500 to-purple-400 rounded-xl flex items-center justify-center shadow-lg shadow-purple-500/50"
+            className="h-14 w-14 bg-gradient-to-br from-primary to-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20"
           >
             <svg
               className="h-8 w-8 text-white"
@@ -139,10 +143,21 @@ export default function FolderCard({
           </motion.button>
         </div>
 
-        {/* Folder Name */}
-        <h3 className="text-xl font-bold text-gray-900 mb-2 truncate">
-          {folderName}
-        </h3>
+        {/* Folder Name with Protection Badge */}
+        <div className="flex items-center gap-2 mb-2">
+          <h3 className="text-xl font-bold text-gray-900 truncate flex-1">
+            {folderName}
+          </h3>
+          {isProtected ? (
+            <span className="inline-flex items-center gap-1 px-2 py-1 bg-muted text-primary text-xs font-semibold rounded-full">
+              🔒 Protected
+            </span>
+          ) : (
+            <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
+              🔓 Open
+            </span>
+          )}
+        </div>
 
         {/* Description */}
         {description && (
@@ -152,27 +167,51 @@ export default function FolderCard({
         )}
 
         {/* Stats */}
-        <div className="flex items-center justify-between mb-4 pt-4 border-t border-purple-100">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <svg
-              className="h-4 w-4 text-purple-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-              />
-            </svg>
-            <span className="font-medium">{documentCount}</span>
-            <span>{documentCount === 1 ? 'file' : 'files'}</span>
-          </div>
+        <div className="space-y-2 mb-4 pt-4 border-t border-border">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4 text-sm text-gray-600">
+              {/* Subfolder Count */}
+              <div className="flex items-center gap-1">
+                <svg
+                  className="h-4 w-4 text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                  />
+                </svg>
+                <span className="font-medium">{subfolderCount}</span>
+                <span>{subfolderCount === 1 ? 'folder' : 'folders'}</span>
+              </div>
 
-          <div className="text-sm text-gray-600 font-medium">
-            {formatSize(totalSize)}
+              {/* File Count */}
+              <div className="flex items-center gap-1">
+                <svg
+                  className="h-4 w-4 text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                  />
+                </svg>
+                <span className="font-medium">{documentCount}</span>
+                <span>{documentCount === 1 ? 'file' : 'files'}</span>
+              </div>
+            </div>
+
+            <div className="text-sm text-gray-600 font-medium">
+              {formatSize(totalSize)}
+            </div>
           </div>
         </div>
 
@@ -224,7 +263,7 @@ export default function FolderCard({
         <motion.div
           initial={{ opacity: 0 }}
           whileHover={{ opacity: 1 }}
-          className="absolute bottom-4 right-4 text-purple-600"
+          className="absolute bottom-4 right-4 text-primary"
         >
           <svg
             className="h-5 w-5"

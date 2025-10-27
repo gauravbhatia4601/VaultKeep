@@ -4,10 +4,8 @@ import { verifyFolderAccessToken } from '@/lib/auth';
 import Folder from '@/models/Folder';
 import Document from '@/models/Document';
 import connectDB from '@/lib/mongodb';
-import { writeFile } from 'fs/promises';
-import { join } from 'path';
-import crypto from 'crypto';
 import { validateFileType, validateFileSize, sanitizeFilename } from '@/lib/validation';
+import { uploadToR2, validateR2Config } from '@/lib/r2Storage';
 
 // GET /api/folders/[id]/documents - List all documents in folder
 export async function GET(
@@ -66,6 +64,9 @@ export async function GET(
           id: folder._id,
           folderName: folder.folderName,
           description: folder.description,
+          parentId: folder.parentId,
+          path: folder.path,
+          level: folder.level,
           documentCount: folder.documentCount,
           totalSize: folder.totalSize,
           createdAt: folder.createdAt,
@@ -162,32 +163,40 @@ export async function POST(
       );
     }
 
-    // Generate unique filename
-    const fileExtension = file.name.split('.').pop();
-    const uniqueFileName = `${crypto.randomBytes(16).toString('hex')}.${fileExtension}`;
+    // Validate R2 configuration
+    const r2ConfigValidation = validateR2Config();
+    if (!r2ConfigValidation.valid) {
+      return NextResponse.json(
+        { error: `R2 configuration error: ${r2ConfigValidation.error}` },
+        { status: 500 }
+      );
+    }
+
+    // Generate sanitized filename
     const sanitizedOriginalName = sanitizeFilename(file.name);
 
-    // Save file to uploads directory
+    // Convert file to buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
-    const uploadDir = join(process.cwd(), 'uploads');
-    const filePath = join(uploadDir, uniqueFileName);
 
-    await writeFile(filePath, buffer);
+    // Upload to R2
+    const uploadResult = await uploadToR2(
+      buffer,
+      sanitizedOriginalName,
+      file.type,
+      folderId
+    );
 
-    // Calculate checksum
-    const checksum = crypto.createHash('sha256').update(buffer).digest('hex');
-
-    // Create document record
+    // Create document record with R2 key
     const document = new Document({
       folderId,
       userId,
-      fileName: uniqueFileName,
+      fileName: uploadResult.key.split('/').pop() || uploadResult.key,
       originalName: sanitizedOriginalName,
       mimeType: file.type,
-      size: file.size,
-      storagePath: uniqueFileName,
-      checksum,
+      size: uploadResult.size,
+      storagePath: uploadResult.key, // Store R2 key instead of local path
+      checksum: uploadResult.checksum,
     });
 
     await document.save();

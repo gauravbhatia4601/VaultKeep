@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useRef } from 'react';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 interface FileUploadZoneProps {
   folderId: string;
@@ -127,7 +127,7 @@ export default function FileUploadZone({
         onDrop={handleDrop}
         className={`
           backdrop-blur-md bg-white/90 border-2 border-dashed rounded-2xl shadow-xl p-12 transition-all duration-300
-          ${isDragging ? 'border-purple-500 bg-purple-50/50 scale-105' : 'border-purple-200/50'}
+          ${isDragging ? 'border-primary bg-muted/30/50 scale-105' : 'border-border/50'}
           ${isUploading ? 'pointer-events-none' : 'cursor-pointer'}
         `}
         onClick={() => !isUploading && fileInputRef.current?.click()}
@@ -148,10 +148,10 @@ export default function FileUploadZone({
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                className="h-16 w-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4"
+                className="h-16 w-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4"
               >
                 <svg
-                  className="h-8 w-8 text-purple-600 animate-spin"
+                  className="h-8 w-8 text-primary animate-spin"
                   fill="none"
                   viewBox="0 0 24 24"
                 >
@@ -172,9 +172,9 @@ export default function FileUploadZone({
               </motion.div>
               <h3 className="text-xl font-bold text-gray-900 mb-2">Uploading...</h3>
               <div className="max-w-xs mx-auto">
-                <div className="w-full bg-purple-100 rounded-full h-2 mb-2">
+                <div className="w-full bg-muted rounded-full h-2 mb-2">
                   <motion.div
-                    className="bg-gradient-to-r from-purple-600 to-purple-500 h-2 rounded-full"
+                    className="bg-gradient-to-r from-primary to-primary h-2 rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: `${uploadProgress}%` }}
                     transition={{ duration: 0.3 }}
@@ -189,10 +189,10 @@ export default function FileUploadZone({
               <motion.div
                 whileHover={{ scale: 1.1, y: -5 }}
                 transition={{ duration: 0.2 }}
-                className="h-16 w-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4"
+                className="h-16 w-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4"
               >
                 <svg
-                  className="h-8 w-8 text-purple-600"
+                  className="h-8 w-8 text-primary"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -213,7 +213,7 @@ export default function FileUploadZone({
                 Drag and drop files here or click to browse
               </p>
 
-              <Button className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600 shadow-lg shadow-purple-500/50">
+              <Button className="bg-gradient-to-r from-primary to-primary hover:from-primary/90 hover:to-primary shadow-lg shadow-primary/20">
                 <svg
                   className="h-5 w-5 mr-2"
                   fill="none"

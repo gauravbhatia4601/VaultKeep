@@ -2,14 +2,14 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import Button from '@/components/ui/Button';
+import { Button } from '@/components/ui/button';
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute w-96 h-96 bg-purple-500/30 rounded-full blur-3xl -top-48 -left-48 animate-float" />
+        <div className="absolute w-96 h-96 bg-primary/30 rounded-full blur-3xl -top-48 -left-48 animate-float" />
         <div className="absolute w-96 h-96 bg-blue-500/20 rounded-full blur-3xl top-1/2 -right-48" style={{ animationDelay: '2s' }} />
         <div className="absolute w-96 h-96 bg-pink-500/20 rounded-full blur-3xl -bottom-48 left-1/2" style={{ animationDelay: '4s' }} />
       </div>
@@ -33,7 +33,7 @@ export default function Home() {
               <Button variant="secondary" size="sm">Login</Button>
             </Link>
             <Link href="/register">
-              <Button size="sm" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
+              <Button size="sm" className="bg-gradient-to-r from-primary to-pink-600 hover:from-primary/90 hover:to-pink-700">
                 Sign Up
               </Button>
             </Link>
@@ -50,7 +50,7 @@ export default function Home() {
             animate={{ scale: 1, rotateY: 0 }}
             transition={{ duration: 0.8, type: "spring" }}
             whileHover={{ scale: 1.1, rotateY: 15 }}
-            className="mx-auto h-40 w-40 bg-gradient-to-br from-purple-600 to-pink-600 rounded-3xl flex items-center justify-center mb-8 shadow-2xl transform-3d relative"
+            className="mx-auto h-40 w-40 bg-gradient-to-br from-primary to-pink-600 rounded-3xl flex items-center justify-center mb-8 shadow-2xl transform-3d relative"
             style={{
               boxShadow: '0 30px 60px rgba(139, 92, 246, 0.5), 0 0 100px rgba(236, 72, 153, 0.3)'
             }}
@@ -107,7 +107,7 @@ export default function Home() {
           >
             <Link href="/register">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button size="lg" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-lg px-8 py-4 glow">
+                <Button size="lg" className="bg-gradient-to-r from-primary to-pink-600 hover:from-primary/90 hover:to-pink-700 text-lg px-8 py-4 glow">
                   Get Started Free
                 </Button>
               </motion.div>
@@ -145,7 +145,7 @@ export default function Home() {
               ),
               title: "Easy Organization",
               description: "Create unlimited folders to organize your documents by category or family member.",
-              gradient: "from-purple-500 to-pink-500",
+              gradient: "from-primary to-pink-500",
               delay: 0.2
             },
             {
@@ -166,7 +166,7 @@ export default function Home() {
               whileHover={{ y: -10, scale: 1.02 }}
               className="relative group"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-pink-600/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
               <div className="relative backdrop-blur-sm bg-white/5 p-8 rounded-2xl border border-white/10 hover:border-white/20 transition-all duration-300">
                 <motion.div
                   whileHover={{ rotate: 360, scale: 1.1 }}
