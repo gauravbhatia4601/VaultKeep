@@ -21,14 +21,14 @@ Complete guide for setting up and using VaultKeep, a secure family document stor
 
 ### Installation
 
-1. **Clone and Install**
+1. Clone and Install
 ```bash
 git clone https://github.com/gauravbhatia4601/VaultKeep.git
 cd VaultKeep
 npm install
 ```
 
-2. **Environment Setup**
+2. Environment Setup
 Create a `.env.local` file in the root directory:
 
 ```env
@@ -52,7 +52,7 @@ R2_ENDPOINT=https://your-account-id.r2.cloudflarestorage.com
 NEXT_PUBLIC_APP_URL=https://yourdomain.com
 ```
 
-3. **Run the Application**
+3. Run the Application
 ```bash
 npm run dev
 ```
@@ -68,17 +68,17 @@ Cloudflare R2 provides S3-compatible object storage with zero egress fees, perfe
 
 ### Setup Steps
 
-1. **Create R2 Bucket**
+1. Create R2 Bucket
    - Go to [Cloudflare Dashboard](https://dash.cloudflare.com/)
    - Navigate to R2 > Create Bucket
    - Name your bucket (e.g., `vaultkeep-docs`)
 
-2. **Create API Token**
+2. Create API Token
    - R2 > Manage R2 API Tokens
    - Create API token with Admin Read & Write permissions
    - Copy the credentials to your `.env.local`
 
-3. **Bucket Settings**
+3. Bucket Settings
    - Set public access if you need share links
    - Configure CORS for your domain
    - Set lifecycle rules if needed
@@ -306,6 +306,6 @@ For issues or questions:
 
 ---
 
-**Last Updated**: October 2024
-**Version**: 1.0.0
+Last Updated: October 2024
+Version: 1.0.0
 
